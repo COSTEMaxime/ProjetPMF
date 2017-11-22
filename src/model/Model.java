@@ -6,7 +6,7 @@ import java.util.Observable;
 
 import contract.IModel;
 
-public class PMFModel extends Observable implements IModel {
+public class Model extends Observable implements IModel {
 	
 	private float temperatureInt;
 	private float temperatureExt;
@@ -19,7 +19,7 @@ public class PMFModel extends Observable implements IModel {
 	
 	
 	
-	public PMFModel(float consigne) {
+	public Model(float consigne) {
 		
 		setTemperatureConsigne(consigne);
 		temperatureRecords = new ArrayList<Float>();

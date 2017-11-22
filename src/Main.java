@@ -5,13 +5,13 @@ import contract.ICAD;
 import contract.IControlleur;
 import contract.IModel;
 import controlleur.Controlleur;
-import model.PMFModel;
+import model.Model;
 
 public class Main {
 
 	public static void main(String[] args) {
 		
-		IModel model = new PMFModel(15);
+		IModel model = new Model(15);
 		ICAD cad = new CAD(model);
 		IControlleur ctrl = new Controlleur(model, cad);
 		
