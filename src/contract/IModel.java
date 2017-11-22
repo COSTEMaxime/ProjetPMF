@@ -3,15 +3,21 @@ package contract;
 import java.util.List;
 
 public interface IModel {
-	
-	float getConsigne();
+
+	float getTemperatureConsigne();
+
 	float getTemperatureInt();
+
 	float getTemperatureExt();
+
 	float getTemperatureRosee();
+
 	float getHumidity();
+
 	List<Float> getTemperatureRecords();
-	
-	void setConsigne(float consigne);
-	void setNewData(float temperatureInt, float temperatureExt, float himidity);
+
+	void setTemperatureConsigne(float consigne);
+
+	void updateData(float temperatureInt, float temperatureExt, float himidity);
 
 }

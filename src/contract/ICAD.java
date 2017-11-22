@@ -1,8 +1,8 @@
 package contract;
 
-public interface ICAD {
+public interface ICAD extends Runnable {
 	
-	void initCAD();
+	void init();
 	boolean write(String trame);
 	boolean updateData();
 	void close();

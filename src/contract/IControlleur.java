@@ -1,5 +1,5 @@
 package contract;
 
-public interface IControlleur {
+public interface IControlleur extends Runnable {
 
 }
