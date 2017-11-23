@@ -16,13 +16,25 @@ import java.util.Enumeration;
 import contract.ICAD;
 import contract.IModel;
 
+/**
+ * Classe qui gère l'accès aux données, elle s'occupe de la communication avec
+ * l'Arduino sur le port série
+ * 
+ * @author Coste Maxime
+ *
+ */
+
 public class CAD implements ICAD {
 
+	// port série de l'Arduino
 	private SerialPort serialPort;
+
+	// flux d'écriture/lecture du port série
 	private InputStream in;
 	private OutputStream out;
 	private IModel model;
 
+	// temps minimum entre deuyx rafraichissements (en ms)
 	private final int refreshTime = 2000;
 
 	public CAD(IModel model) {
@@ -30,6 +42,10 @@ public class CAD implements ICAD {
 		this.model = model;
 	}
 
+	/**
+	 * Permet d'initialiser la communication entre le java et l'Arduino
+	 * 
+	 */
 	@Override
 	public void init() {
 
@@ -46,12 +62,15 @@ public class CAD implements ICAD {
 
 			BufferedReader input = new BufferedReader(new InputStreamReader(in));
 
+			// actionListener sur le port série
 			serialPort.addEventListener(new SerialPortEventListener() {
 
 				@Override
 				public void serialEvent(SerialPortEvent arg0) {
 					if (arg0.getEventType() == SerialPortEvent.DATA_AVAILABLE) {
 						try {
+							// on attends que la data soit disponible sur le
+							// port série, puis on la parse dans le modèle
 							while (!input.ready())
 								;
 							parseDataIntoModel(input.readLine());
@@ -70,6 +89,15 @@ public class CAD implements ICAD {
 		}
 	}
 
+	/**
+	 * Vérifie si la chaine reçue est valide, et va modifier le modèle
+	 * 
+	 * @param input
+	 *            la chaine de caractère à parser
+	 * 
+	 * @throws Exception
+	 *             si la chaine n'est pas valide
+	 */
 	private void parseDataIntoModel(String input) throws Exception {
 
 		String[] values = input.split(";");
@@ -80,10 +108,20 @@ public class CAD implements ICAD {
 		model.updateData(Float.parseFloat(values[0]), Float.parseFloat(values[1]), Float.parseFloat(values[2]));
 	}
 
+	/**
+	 * Retourne automatiquement le nom du port série branché
+	 * 
+	 * @return string the name of the serial port
+	 * 
+	 * @throws NoSuchPortException
+	 *             si aucun port série n'a été trouvé
+	 */
 	private String getPortName() throws NoSuchPortException {
 
 		CommPortIdentifier serialPortID;
 		Enumeration<?> enumComm = CommPortIdentifier.getPortIdentifiers();
+		// on teste chaque port branché au PC, et on retourne le nom du premier
+		// port de type série trouvé
 		while (enumComm.hasMoreElements()) {
 
 			serialPortID = (CommPortIdentifier) enumComm.nextElement();
@@ -92,9 +130,18 @@ public class CAD implements ICAD {
 			}
 
 		}
+		// exception pour indiquer qu'aucun port série n'a été trouvé
 		throw new NoSuchPortException();
 	}
 
+	/**
+	 * Ecrit une trame sur le port série
+	 * 
+	 * @param trame
+	 *            la trame à écrire sur le port série
+	 * 
+	 * @return boolean success
+	 */
 	@Override
 	public boolean write(String trame) {
 
@@ -107,6 +154,10 @@ public class CAD implements ICAD {
 		}
 	}
 
+	/**
+	 * Libère le port série
+	 * 
+	 */
 	@Override
 	public void close() {
 		try {
@@ -119,11 +170,21 @@ public class CAD implements ICAD {
 		}
 	}
 
+	/**
+	 * Envoie une trame spéciale qui va demander à l'Arduino d'envoyer de
+	 * nouvelles données
+	 * 
+	 * @return boolean success
+	 */
 	@Override
 	public boolean updateData() {
 		return write("update");
 	}
 
+	/**
+	 * Boucle infinie qui envoie un signal d'update sur le port série
+	 * 
+	 */
 	@Override
 	public void run() {
 
