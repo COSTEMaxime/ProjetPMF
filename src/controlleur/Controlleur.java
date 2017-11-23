@@ -34,15 +34,15 @@ public class Controlleur implements IControlleur, Observer {
 	public void update(Observable arg0, Object arg1) {
 
 		view.getLabel("outTemperatureInt").setText(Float.toString(model.getTemperatureInt()));
-		view.getLabel("outTemperatireExt").setText(Float.toString(model.getTemperatureExt()));
+		view.getLabel("outTemperatureExt").setText(Float.toString(model.getTemperatureExt()));
 		view.getLabel("outHumidity").setText(Float.toString(model.getHumidity()));
 
 		Collections.rotate(model.getTemperatureRecords(), -1);
-		model.getTemperatureRecords().set(model.getTemperatureRecords().size(), model.getTemperatureInt());
+		model.getTemperatureRecords().set(model.getTemperatureRecords().size() - 1, model.getTemperatureInt());
 
 		view.updateGraph(model.getTemperatureInt(), model.getTemperatureExt(), model.getHumidity());
 
-		if (Math.abs(model.getTemperatureRecords().get(model.getTemperatureRecords().size())
+		if (Math.abs(model.getTemperatureRecords().get(model.getTemperatureRecords().size() - 1)
 				- model.getTemperatureRecords().get(model.getTemperatureRecords().size() - 5)) > 1.5 && !alerteChuteTemperature) {
 
 			System.out.println("Alerte temperature");

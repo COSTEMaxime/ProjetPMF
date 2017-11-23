@@ -65,7 +65,7 @@ public class View implements IView {
 		if (name.equals("outTemperatureConsigne") ){
 			return lblTConsigne;
 		}
-		if (name.equals("outHumidty")){
+		if (name.equals("outHumidity")){
 			return lblHygromtrie;
 		}
 		return null;
