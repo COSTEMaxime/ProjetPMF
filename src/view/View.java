@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Button;
 import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Frame;
 import java.awt.TextField;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -92,6 +93,10 @@ public class View implements IView {
 		return;
 	}
 
+	@Override
+	public Frame getFrame() {
+		return frame;
+	}
 	
 
 	/**
@@ -200,6 +205,8 @@ public class View implements IView {
 		//chartPanel.setPreferredSize(new Dimension(800, 400));
 		JpanelGraph.add(chartPanel, BorderLayout.CENTER);
 	}
+
+	
 
 	
 }

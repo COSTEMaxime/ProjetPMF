@@ -1,6 +1,7 @@
 package contract;
 
 import java.awt.Button;
+import java.awt.Frame;
 
 import javax.swing.JLabel;
 
@@ -13,4 +14,7 @@ public interface IView {
 	void updateGraph(float temperatureInt, float temperatureExt, float humidity);
 	
 	void alerteRosee (boolean Statement);
+	
+	Frame getFrame();
 }
+	

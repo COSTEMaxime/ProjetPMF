@@ -20,9 +20,12 @@ public class Model extends Observable implements IModel {
 	
 	
 	public Model(float consigne) {
-		
+		int i = 0;
 		setTemperatureConsigne(consigne);
 		temperatureRecords = new ArrayList<Float>();
+		for (i=0; i<30; i++){
+			temperatureRecords.add(0f); ;
+		}
 	}
 
 	public float getTemperatureInt() {
@@ -80,7 +83,6 @@ public class Model extends Observable implements IModel {
 
 	@Override
 	public List<Float> getTemperatureRecords() {
-		// TODO Auto-generated method stub
-		return null;
+		return temperatureRecords;
 	}
 }
