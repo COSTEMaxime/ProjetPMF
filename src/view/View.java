@@ -1,39 +1,101 @@
 package view;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.TextField;
+import java.awt.BorderLayout;
 import java.awt.Button;
-import javax.swing.JLabel;
-import javax.swing.ImageIcon;
 import java.awt.Color;
+import java.awt.EventQueue;
+import java.awt.TextField;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.data.category.DefaultCategoryDataset;
+
 import contract.IView;
 
 public class View implements IView {
+	
+	private JFrame frame;
+	private JFreeChart chart;
+	private ChartPanel chartPanel;
+	private DefaultCategoryDataset dataset;
+	private Button lessButton;
+	private Button plusButton;
+	private JLabel lblTInt;
+	private JLabel lblTExt;
+	private JLabel lblTConsigne;
+	private JLabel lblHygromtrie;
+	private JLabel iconAlertUp;
+	public int ordonnees = 0 ;
+	
+	public DefaultCategoryDataset getDataset() {
+		return dataset;
+	}
 
+	public void setDataset(DefaultCategoryDataset dataset) {
+		this.dataset = dataset;
+	}
+
+	
+	
 	@Override
-	public JButton getButton(String name) {
-		// TODO Auto-generated method stub
+	public Button getButton(String name) {
+		if (name.equals("lessButton") ){
+			return lessButton;
+		}
+		else if (name.equals("plusButton")){
+			return plusButton;
+		}
 		return null;
 	}
 
 	@Override
 	public JLabel getLabel(String name) {
-		// TODO Auto-generated method stub
+		if (name.equals("outTemperatureInt") ){
+			return lblTInt;
+		}
+		if (name.equals("outTemperatureExt")){
+			return lblTExt;
+		}
+		if (name.equals("outTemperatureConsigne") ){
+			return lblTConsigne;
+		}
+		if (name.equals("outHumidty")){
+			return lblHygromtrie;
+		}
 		return null;
 	}
+	
+	public void updateGraph(float temperatureInt, float temperatureExt, float humidity) {
+		getDataset().addValue(temperatureInt, "TemperatureInt", String.valueOf(ordonnees));
+		getDataset().addValue(temperatureExt, "temperatureExt", String.valueOf(ordonnees));
+		getDataset().addValue(humidity, "Humidity", String.valueOf(ordonnees));
+		ordonnees++;
+		
+		if(ordonnees > 100) {
+			getDataset().removeColumn(0);
+		}
+	}
 
-	/*
-	 * public void alerteRosee (boolean Up){ if (Up == false){
-	 * iconAlertUp.setVisible(false); } else { break; }
-	 * 
-	 */
 
-	private JFrame frame;
+	public void alerteRosee (boolean Statement){
+		if (Statement == false){
+			iconAlertUp.setVisible(false);
+			}
+		else if (Statement == true){ 
+			iconAlertUp.setVisible(true); 
+		}
+		return;
+	}
+
+	
 
 	/**
 	 * Launch the application.
@@ -84,44 +146,34 @@ public class View implements IView {
 		outHumidity.setBounds(42, 416, 100, 100);
 		frame.getContentPane().add(outHumidity);
 
-		Button addDegres = new Button("-1");
-		addDegres.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// setTemperatureConsigne(getTemperatureConsigne()+-1);
-			}
-		});
-		addDegres.setBounds(365, 32, 79, 46);
-		frame.getContentPane().add(addDegres);
+		lessButton = new Button("-1");
+		lessButton.setBounds(365, 32, 79, 46);
+		frame.getContentPane().add(lessButton);
 
-		Button removeDegres = new Button("+1");
-		removeDegres.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// setTemperatureConsigne(getTemperatureConsigne()+1);
-			}
-		});
-		removeDegres.setBounds(365, 86, 79, 46);
-		frame.getContentPane().add(removeDegres);
+		plusButton = new Button("+1");
+		plusButton.setBounds(365, 86, 79, 46);
+		frame.getContentPane().add(plusButton);
 
-		JLabel lblT = new JLabel("T\u00B0 Ext");
-		lblT.setLabelFor(outTemperatureExt);
-		lblT.setBounds(69, 138, 56, 16);
-		frame.getContentPane().add(lblT);
+		lblTExt = new JLabel("T\u00B0 Ext");
+		lblTExt.setLabelFor(outTemperatureExt);
+		lblTExt.setBounds(69, 138, 56, 16);
+		frame.getContentPane().add(lblTExt);
 
-		JLabel lblTInt = new JLabel("T\u00B0 Int");
+		lblTInt = new JLabel("T\u00B0 Int");
 		lblTInt.setLabelFor(outTemperatureInt);
 		lblTInt.setBounds(546, 138, 56, 16);
 		frame.getContentPane().add(lblTInt);
 
-		JLabel lblTConsigne = new JLabel("T\u00B0 Consigne");
+		lblTConsigne = new JLabel("T\u00B0 Consigne");
 		lblTConsigne.setLabelFor(lblTConsigne);
 		lblTConsigne.setBounds(260, 138, 78, 16);
 		frame.getContentPane().add(lblTConsigne);
 
-		JLabel lblHygromtrie = new JLabel("Hygrom\u00E9trie");
+		lblHygromtrie = new JLabel("Hygrom\u00E9trie");
 		lblHygromtrie.setBounds(52, 522, 79, 16);
 		frame.getContentPane().add(lblHygromtrie);
 
-		JLabel iconAlertUp = new JLabel("");
+		iconAlertUp = new JLabel("");
 		iconAlertUp.setBackground(Color.WHITE);
 		iconAlertUp.setForeground(new Color(255, 255, 255));
 		iconAlertUp.setIcon(new ImageIcon("C:\\Users\\Pierre GILLY\\workspace\\Mini-frigo\\src\\Vue\\pouce_up.png"));
@@ -140,8 +192,18 @@ public class View implements IView {
 				"C:\\Users\\Pierre GILLY\\workspace\\Mini-frigo\\src\\Vue\\Free-Desktop-Solid-Color-HD-Wallpapers.jpg"));
 		lblNewLabel.setBounds(0, 0, 682, 553);
 		frame.getContentPane().add(lblNewLabel);
-
+		
+		JPanel JpanelGraph = new JPanel();
+		JpanelGraph.setBounds(42, 168, 597, 212);
+		frame.getContentPane().add(JpanelGraph);
+		
+		dataset = new DefaultCategoryDataset();
+		chart = ChartFactory.createLineChart("Graphique des données", "Temps", "Temperature (°C)", dataset);
+		chartPanel = new ChartPanel(chart);
+		//chartPanel.setPreferredSize(new Dimension(800, 400));
+		JpanelGraph.add(chartPanel, BorderLayout.CENTER);
 	}
+
+	
 }
 
-// fen.setVisible(false);

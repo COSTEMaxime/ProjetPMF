@@ -1,11 +1,16 @@
 package contract;
 
-import javax.swing.JButton;
+import java.awt.Button;
+
 import javax.swing.JLabel;
 
 public interface IView {
 
-	JButton getButton(String name);
+	Button getButton(String name);
 
 	JLabel getLabel(String name);
+	
+	void updateGraph(float temperatureInt, float temperatureExt, float humidity);
+	
+	void alerteRosee (boolean Statement);
 }
