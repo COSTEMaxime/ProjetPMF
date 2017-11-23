@@ -4,8 +4,9 @@ import java.awt.BorderLayout;
 import java.awt.Button;
 import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.Frame;
-import java.awt.TextField;
+
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -26,10 +27,10 @@ public class View implements IView {
 	private DefaultCategoryDataset dataset;
 	private Button lessButton;
 	private Button plusButton;
-	private JLabel lblTInt;
-	private JLabel lblTExt;
-	private JLabel lblTConsigne;
-	private JLabel lblHygromtrie;
+	private JLabel outTemperatureInt;
+	private JLabel outTemperatureExt;
+	private JLabel outTemperatureConsigne;
+	private JLabel outHygromtrie;
 	private JLabel iconAlertUp;
 	public int ordonnees = 0 ;
 	
@@ -57,16 +58,16 @@ public class View implements IView {
 	@Override
 	public JLabel getLabel(String name) {
 		if (name.equals("outTemperatureInt") ){
-			return lblTInt;
+			return outTemperatureInt;
 		}
 		if (name.equals("outTemperatureExt")){
-			return lblTExt;
+			return outTemperatureExt;
 		}
 		if (name.equals("outTemperatureConsigne") ){
-			return lblTConsigne;
+			return outTemperatureConsigne;
 		}
 		if (name.equals("outHumidity")){
-			return lblHygromtrie;
+			return outHygromtrie;
 		}
 		return null;
 	}
@@ -130,48 +131,53 @@ public class View implements IView {
 		frame.setBounds(100, 100, 700, 600);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
-
-		TextField outTemperatureInt = new TextField();
-		outTemperatureInt.setBounds(42, 32, 100, 100);
+		
+		JLabel outTemperatureInt = new JLabel("New label");
+		outTemperatureInt.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		outTemperatureInt.setBackground(Color.BLACK);
+		outTemperatureInt.setBounds(43, 31, 100, 101);
 		frame.getContentPane().add(outTemperatureInt);
-
-		TextField outTemperatureConsigne = new TextField();
-		outTemperatureConsigne.setBounds(250, 32, 97, 100);
+		
+		JLabel outTemperatureConsigne = new JLabel("New label");
+		outTemperatureConsigne.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		outTemperatureConsigne.setBackground(Color.BLACK);
+		outTemperatureConsigne.setBounds(247, 31, 100, 101);
 		frame.getContentPane().add(outTemperatureConsigne);
-
-		TextField outTemperatureExt = new TextField();
-		outTemperatureExt.setBounds(509, 32, 100, 100);
+		
+		JLabel outTemperatureExt = new JLabel("New label");
+		outTemperatureExt.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		outTemperatureExt.setBackground(Color.BLACK);
+		outTemperatureExt.setBounds(509, 32, 100, 101);
 		frame.getContentPane().add(outTemperatureExt);
-
-		TextField outHumidity = new TextField();
-		outHumidity.setText("\r\n");
-		outHumidity.setBounds(42, 416, 100, 100);
-		frame.getContentPane().add(outHumidity);
 
 		lessButton = new Button("-1");
 		lessButton.setBounds(365, 32, 79, 46);
 		frame.getContentPane().add(lessButton);
+		
+		JLabel outHumidity = new JLabel("New label");
+		outHumidity.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		outHumidity.setBackground(Color.BLACK);
+		outHumidity.setBounds(42, 415, 100, 101);
+		frame.getContentPane().add(outHumidity);
 
 		plusButton = new Button("+1");
 		plusButton.setBounds(365, 86, 79, 46);
 		frame.getContentPane().add(plusButton);
 
-		lblTExt = new JLabel("T\u00B0 Ext");
-		lblTExt.setLabelFor(outTemperatureExt);
+		JLabel lblTExt = new JLabel("T\u00B0 Ext");
 		lblTExt.setBounds(69, 138, 56, 16);
 		frame.getContentPane().add(lblTExt);
 
-		lblTInt = new JLabel("T\u00B0 Int");
-		lblTInt.setLabelFor(outTemperatureInt);
+		JLabel lblTInt = new JLabel("T\u00B0 Int");
 		lblTInt.setBounds(546, 138, 56, 16);
 		frame.getContentPane().add(lblTInt);
 
-		lblTConsigne = new JLabel("T\u00B0 Consigne");
+		JLabel lblTConsigne = new JLabel("T\u00B0 Consigne");
 		lblTConsigne.setLabelFor(lblTConsigne);
 		lblTConsigne.setBounds(260, 138, 78, 16);
 		frame.getContentPane().add(lblTConsigne);
 
-		lblHygromtrie = new JLabel("Hygrom\u00E9trie");
+		JLabel lblHygromtrie = new JLabel("Hygrom\u00E9trie");
 		lblHygromtrie.setBounds(52, 522, 79, 16);
 		frame.getContentPane().add(lblHygromtrie);
 
@@ -205,9 +211,5 @@ public class View implements IView {
 		//chartPanel.setPreferredSize(new Dimension(800, 400));
 		JpanelGraph.add(chartPanel, BorderLayout.CENTER);
 	}
-
-	
-
-	
 }
 
