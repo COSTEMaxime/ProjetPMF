@@ -74,32 +74,12 @@ public class CAD implements ICAD {
 
 	private void parseDataIntoModel(String input) throws Exception {
 
-		Scanner scanner = new Scanner(input);
-		float tempInt, tempExt, humidity;
-
-		if (scanner.hasNextFloat()) {
-			tempInt = scanner.nextFloat();
-		} else {
-			scanner.close();
+		String[] values = input.split(";");
+		if (values.length != 3) {
 			throw new Exception("Trame reçue non valide : " + input);
 		}
 
-		if (scanner.hasNextFloat()) {
-			tempExt = scanner.nextFloat();
-		} else {
-			scanner.close();
-			throw new Exception("Trame reçue non valide : " + input);
-		}
-
-		if (scanner.hasNextFloat()) {
-			humidity = scanner.nextFloat();
-		} else {
-			scanner.close();
-			throw new Exception("Trame reçue non valide : " + input);
-		}
-
-		model.updateData(tempInt, tempExt, humidity);
-		scanner.close();
+		model.updateData(Float.parseFloat(values[0]), Float.parseFloat(values[1]), Float.parseFloat(values[2]));
 	}
 
 	private String getPortName() throws NoSuchPortException {

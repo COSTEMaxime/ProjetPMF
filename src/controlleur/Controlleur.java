@@ -16,7 +16,7 @@ public class Controlleur implements IControlleur, Observer {
 	private IModel model;
 	private IView view;
 	private ICAD cad;
-	
+
 	private final int TEMP_MIN = -10;
 	private final int TEMP_MAX = 50;
 
@@ -28,42 +28,42 @@ public class Controlleur implements IControlleur, Observer {
 
 	@Override
 	public void update(Observable arg0, Object arg1) {
-		// TODO Auto-generated method stub
-		System.out.println(arg0.getClass().getName());
-		
-		//check si alimentation nécessaire
-		//check si chute temperature
-		//check si rosee
-		
+
+		String trame = "";
+		// check si alimentation nécessaire
+		// check si chute temperature
+		// check si rosee
+
+		cad.write(trame);
 	}
 
 	@Override
 	public void run() {
 
-		
 		((Observable) model).addObserver(this);
-		
+
 		cad.init();
 		new Thread(cad).start();
-		
-		view = new View();
-		
-		
-		view.getButton("lessButton").addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				model.setTemperatureConsigne(checkConsigne(model.getTemperatureConsigne() - 1));
-				view.getLabel("lessLabel").setText(Float.toString(model.getTemperatureConsigne()));
-			}
-		});
 
-		view.getButton("plusButton").addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				model.setTemperatureConsigne(checkConsigne(model.getTemperatureConsigne() + 1));
-				view.getLabel("plusLabel").setText(Float.toString(model.getTemperatureConsigne()));
-			}
-		});
+		view = new View();
+
+		/*
+		 * view.getButton("lessButton").addActionListener(new ActionListener() {
+		 * 
+		 * @Override public void actionPerformed(ActionEvent arg0) {
+		 * model.setTemperatureConsigne(checkConsigne(model.
+		 * getTemperatureConsigne() - 1));
+		 * view.getLabel("lessLabel").setText(Float.toString(model.
+		 * getTemperatureConsigne())); } });
+		 * 
+		 * view.getButton("plusButton").addActionListener(new ActionListener() {
+		 * 
+		 * @Override public void actionPerformed(ActionEvent arg0) {
+		 * model.setTemperatureConsigne(checkConsigne(model.
+		 * getTemperatureConsigne() + 1));
+		 * view.getLabel("plusLabel").setText(Float.toString(model.
+		 * getTemperatureConsigne())); } });
+		 */
 	}
 
 	private float checkConsigne(float consigne) {
