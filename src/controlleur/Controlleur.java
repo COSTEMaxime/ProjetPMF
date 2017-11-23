@@ -16,6 +16,8 @@ public class Controlleur implements IControlleur, Observer {
 	private IModel model;
 	private IView view;
 	private ICAD cad;
+	private boolean alerteRosee;
+	private boolean alerteChuteTemperature;
 
 	private final int TEMP_MIN = -10;
 	private final int TEMP_MAX = 50;
@@ -23,7 +25,9 @@ public class Controlleur implements IControlleur, Observer {
 	public Controlleur(IModel model, ICAD cad) {
 		this.model = model;
 		this.cad = cad;
-
+		
+		alerteRosee = false;
+		alerteChuteTemperature = false;
 	}
 
 	@Override
@@ -39,14 +43,23 @@ public class Controlleur implements IControlleur, Observer {
 		view.updateGraph(model.getTemperatureInt(), model.getTemperatureExt(), model.getHumidity());
 
 		if (Math.abs(model.getTemperatureRecords().get(model.getTemperatureRecords().size())
-				- model.getTemperatureRecords().get(model.getTemperatureRecords().size() - 5)) > 1.5) {
+				- model.getTemperatureRecords().get(model.getTemperatureRecords().size() - 5)) > 1.5 && !alerteChuteTemperature) {
 
 			System.out.println("Alerte temperature");
 		}
+		else if (alerteChuteTemperature)
+		{
+			alerteChuteTemperature = false;
+		}
 
-		if (model.getTemperatureInt() >= model.getTemperatureRosee()) {
+		if (model.getTemperatureInt() <= model.getTemperatureRosee() && !alerteRosee) {
 
 			System.out.println("Alerte rosée");
+			alerteRosee = true;
+		}
+		else if (alerteRosee)
+		{
+			alerteRosee = false;
 		}
 
 		String trame;
@@ -87,6 +100,8 @@ public class Controlleur implements IControlleur, Observer {
 			}
 		});
 
+		view.getFrame().setVisible(true);
+		
 	}
 
 	private float checkConsigne(float consigne) {
