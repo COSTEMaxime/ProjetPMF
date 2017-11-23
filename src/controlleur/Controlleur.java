@@ -2,9 +2,9 @@ package controlleur;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Collections;
 import java.util.Observable;
 import java.util.Observer;
-
 import contract.ICAD;
 import contract.IControlleur;
 import contract.IModel;
@@ -29,10 +29,32 @@ public class Controlleur implements IControlleur, Observer {
 	@Override
 	public void update(Observable arg0, Object arg1) {
 
-		String trame = "";
-		// check si alimentation nécessaire
-		// check si chute temperature
-		// check si rosee
+		view.getLabel("outTemperatureInt").setText(Float.toString(model.getTemperatureInt()));
+		view.getLabel("outTemperatireExt").setText(Float.toString(model.getTemperatureExt()));
+		view.getLabel("outHumidity").setText(Float.toString(model.getHumidity()));
+
+		Collections.rotate(model.getTemperatureRecords(), -1);
+		model.getTemperatureRecords().set(model.getTemperatureRecords().size(), model.getTemperatureInt());
+
+		view.updateGraph(model.getTemperatureInt(), model.getTemperatureExt(), model.getHumidity());
+
+		if (Math.abs(model.getTemperatureRecords().get(model.getTemperatureRecords().size())
+				- model.getTemperatureRecords().get(model.getTemperatureRecords().size() - 5)) > 1.5) {
+
+			System.out.println("Alerte temperature");
+		}
+
+		if (model.getTemperatureInt() >= model.getTemperatureRosee()) {
+
+			System.out.println("Alerte rosée");
+		}
+
+		String trame;
+		if (Math.abs(model.getTemperatureInt() - model.getTemperatureConsigne()) > 0.2) {
+			trame = "1";
+		} else {
+			trame = "0";
+		}
 
 		cad.write(trame);
 	}
@@ -47,23 +69,24 @@ public class Controlleur implements IControlleur, Observer {
 
 		view = new View();
 
-		/*
-		 * view.getButton("lessButton").addActionListener(new ActionListener() {
-		 * 
-		 * @Override public void actionPerformed(ActionEvent arg0) {
-		 * model.setTemperatureConsigne(checkConsigne(model.
-		 * getTemperatureConsigne() - 1));
-		 * view.getLabel("lessLabel").setText(Float.toString(model.
-		 * getTemperatureConsigne())); } });
-		 * 
-		 * view.getButton("plusButton").addActionListener(new ActionListener() {
-		 * 
-		 * @Override public void actionPerformed(ActionEvent arg0) {
-		 * model.setTemperatureConsigne(checkConsigne(model.
-		 * getTemperatureConsigne() + 1));
-		 * view.getLabel("plusLabel").setText(Float.toString(model.
-		 * getTemperatureConsigne())); } });
-		 */
+		view.getButton("lessButton").addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				model.setTemperatureConsigne(checkConsigne(model.getTemperatureConsigne() - 1));
+				view.getLabel("outTemperatureConsigne").setText(Float.toString(model.getTemperatureConsigne()));
+			}
+		});
+
+		view.getButton("plusButton").addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				model.setTemperatureConsigne(checkConsigne(model.getTemperatureConsigne() + 1));
+				view.getLabel("outTemperatureConsigne").setText(Float.toString(model.getTemperatureConsigne()));
+			}
+		});
+
 	}
 
 	private float checkConsigne(float consigne) {
