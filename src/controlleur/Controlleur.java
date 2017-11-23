@@ -35,7 +35,7 @@ public class Controlleur implements IControlleur, Observer {
 
 		view.getLabel("outTemperatureInt").setText(Float.toString(model.getTemperatureInt()));
 		view.getLabel("outTemperatureExt").setText(Float.toString(model.getTemperatureExt()));
-		view.getLabel("outHumidity").setText(Float.toString(model.getHumidity()));
+		view.getLabel("outHumidity").setText(Float.toString(model.getHumidity()) + "%");
 
 		Collections.rotate(model.getTemperatureRecords(), -1);
 		model.getTemperatureRecords().set(model.getTemperatureRecords().size() - 1, model.getTemperatureInt());
@@ -99,6 +99,11 @@ public class Controlleur implements IControlleur, Observer {
 				view.getLabel("outTemperatureConsigne").setText(Float.toString(model.getTemperatureConsigne()));
 			}
 		});
+		
+		view.getLabel("outTemperatureConsigne").setText(Float.toString(model.getTemperatureConsigne()));
+		view.getLabel("outTemperatureInt").setText("-");
+		view.getLabel("outTemperatureExt").setText("-");
+		view.getLabel("outHumidity").setText("- %");
 
 		view.getFrame().setVisible(true);
 		
