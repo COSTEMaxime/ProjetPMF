@@ -11,7 +11,7 @@ public class Model extends Observable implements IModel {
 	private float temperatureInt;
 	private float temperatureExt;
 	private float temperatureConsigne;
-	private float temperatureRosee;
+	private float temperatureRosee = 16.3f;  	// Grâce au calculateur, avec T° Ambiante = 24 et Humidité = 62% on trouve temperatureRosee = 16.3
 	private float humidity;
 	private boolean alertRosee;
 	private boolean alertHausse;
