@@ -33,7 +33,8 @@ public class ViewTest {
 		test.setFont(new Font("Tahoma", Font.PLAIN, 20));		
 		test.setBackground(Color.BLACK);						
 		test.setBounds(509, 32, 100, 101);	
-		assertEquals(test, view.getLabel(name));
+		assertEquals(test.getBackground(), view.getLabel(name).getBackground());
+		
 	}
 
 }

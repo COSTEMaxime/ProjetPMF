@@ -12,9 +12,10 @@ public class ModelTest {
 
 	@Test
 	public void testSetTemperatureConsigne() {
+		Model nouveauModel = new Model(40);
 		float test = 50;
-		setTemperatureConsigne(50);			
-		assertEquals(50, getTemperatureConsigne(), 0f);	}
+		nouveauModel.setTemperatureConsigne(50);			
+		assertEquals(50, nouveauModel.getTemperatureConsigne(), 0f);	}
 
 	
 	@Test
